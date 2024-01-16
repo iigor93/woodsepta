@@ -13,3 +13,7 @@ class IndexView(View):
 
 class About(TemplateView):
     template_name = "core/about.html"
+
+
+class Contact(TemplateView):
+    template_name = "core/contact.html"
