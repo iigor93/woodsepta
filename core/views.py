@@ -4,20 +4,25 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from catalog.models import Category
+from core.mixins import TopMenuMixin
 
 
-class IndexView(View):
+class IndexView(TopMenuMixin, View):
     template_name = "core/index.html"
 
     def get(self, request, *args, **kwargs):
-        categories = Category.objects.all().order_by(F("number_on_main_page").asc(nulls_last=True))
-        context = {"categories": categories}
-        return render(request, template_name=self.template_name, context=context)
+        return render(request, template_name=self.template_name, context=self.context)
 
 
-class About(TemplateView):
+class About(TopMenuMixin, TemplateView):
     template_name = "core/about.html"
 
+    def get_context_data(self, **kwargs):
+        return self.context
 
-class Contact(TemplateView):
+
+class Contact(TopMenuMixin, TemplateView):
     template_name = "core/contact.html"
+
+    def get_context_data(self, **kwargs):
+        return self.context

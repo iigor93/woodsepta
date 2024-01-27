@@ -63,6 +63,7 @@ class CategoryItem(models.Model):
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
+        ordering = ("id",)
 
     name = models.CharField(max_length=50, verbose_name='Название товара', null=False)
     description = models.TextField(verbose_name='Описание товара')
@@ -77,3 +78,25 @@ class CategoryItem(models.Model):
         return self.name
 
 
+class Order(models.Model):
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"
+        ordering = ("id",)
+
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name="Дата время заказа")
+    description = models.TextField(verbose_name="Текст заказа")
+    contact = models.TextField(verbose_name="Контакты")
+    comment = models.TextField(verbose_name="Комментарий к заказу", null=True, blank=True)
+
+
+class OrderItem(models.Model):
+    class Meta:
+        verbose_name = "Товар в заказе"
+        verbose_name_plural = "Товары в заказе"
+        ordering = ("id",)
+
+    order = models.ForeignKey(Order, verbose_name="Заказ", on_delete=models.CASCADE, related_name="order_item")
+    catalog_item = models.ForeignKey(CategoryItem, verbose_name="Категория", on_delete=models.SET_NULL, null=True, blank=True)
+    main_attribute = models.ManyToManyField(MainAttribute, verbose_name="Основной атрибут", related_name='category_items', blank=True)
+    slider = models.ManyToManyField(SliderAttribute, verbose_name="Слайдер атрибут", related_name='category_items', blank=True)

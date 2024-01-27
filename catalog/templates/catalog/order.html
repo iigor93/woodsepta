@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <main class="main__content_wrapper">
+        
+        <!-- Start breadcrumb section -->
+        <section class="breadcrumb__section breadcrumb__bg">
+            <div class="container-fluid">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <div class="breadcrumb__content">
+                            <h1 class="breadcrumb__content--title text-white mb-10">Заказ</h1>
+                            <ul class="breadcrumb__content--menu d-flex">
+                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="{% url 'core:index' %}">Главная</a></li>
+                                <li class="breadcrumb__content--menu__items"><span class="text-white">Заказ</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End breadcrumb section -->
+
+        <!-- cart section start -->
+        <section class="cart__section section--padding">
+            <div class="container-fluid">
+                <div class="cart__section--inner">
+                    <h3>Ваш заказ {{ order_number }} от {{ order_date|date:"d.m.Y" }} успешно оформлен</h3><br>
+                    <h4>Наши менеджеры свяжутся с Вами в ближайшее время</h4>
+                </div>
+            </div>
+             <div class="container">
+
+            </div>
+        </section>
+        <!-- cart section end -->
+
+    </main>
+
+{% endblock %}

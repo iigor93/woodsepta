@@ -41,7 +41,7 @@
                             <ul class="d-flex">
 
                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="#index_catalog_link">Каталог <span class="menu__plus--icon">+</span> </a>
+                                    <a class="header__menu--link" href="{% url 'core:index' %}#index_catalog_link">Каталог <span class="menu__plus--icon">+</span> </a>
                                     <ul class="header__sub--menu">
                                         {% for category in categories %}
                                             <li class="header__sub--menu__items"><a href="{% url 'catalog:category' category.id %}" class="header__sub--menu__link">{{ category.name }}</a></li>
@@ -70,12 +70,12 @@
                     <!--Правое меню ЛК и корзина-->
                     <div class="header__account">
                         <ul class="d-flex">
-                            <li class="header__account--items  header__account--search__items">
-                                <a class="header__account--btn search__open--btn" href="javascript:void(0)">
-                                    <svg class="header__search--button__svg" xmlns="http://www.w3.org/2000/svg" width="26.51" height="23.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/></svg>
-                                    <span class="visually-hidden">Search</span>
-                                </a>
-                            </li>
+<!--                            <li class="header__account&#45;&#45;items  header__account&#45;&#45;search__items">-->
+<!--                                <a class="header__account&#45;&#45;btn search__open&#45;&#45;btn" href="javascript:void(0)">-->
+<!--                                    <svg class="header__search&#45;&#45;button__svg" xmlns="http://www.w3.org/2000/svg" width="26.51" height="23.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/></svg>-->
+<!--                                    <span class="visually-hidden">Search</span>-->
+<!--                                </a>-->
+<!--                            </li>-->
 <!--                            <li class="header__account&#45;&#45;items">-->
 <!--                                <a class="header__account&#45;&#45;btn" href="my-account.html">-->
 <!--                                    <svg xmlns="http://www.w3.org/2000/svg"  width="26.51" height="23.443" viewBox="0 0 512 512"><path d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>-->
@@ -84,11 +84,11 @@
 <!--                            </li>-->
 
                             <li class="header__account--items">
-                                <a class="header__account--btn minicart__open--btn" href="javascript:void(0)">
+                                <a class="header__account--btn minicart__open--btn" href="{% url 'catalog:cart' %}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18.897" height="21.565" viewBox="0 0 18.897 21.565">
                                         <path  d="M16.84,8.082V6.091a4.725,4.725,0,1,0-9.449,0v4.725a.675.675,0,0,0,1.35,0V9.432h5.4V8.082h-5.4V6.091a3.375,3.375,0,0,1,6.75,0v4.691a.675.675,0,1,0,1.35,0V9.433h3.374V21.581H4.017V9.432H6.041V8.082H2.667V21.641a1.289,1.289,0,0,0,1.289,1.29h16.32a1.289,1.289,0,0,0,1.289-1.29V8.082Z" transform="translate(-2.667 -1.366)" fill="currentColor"/>
                                     </svg>
-                                    <span class="items__count">02</span>
+                                    <span class="items__count cart-items-count">{{cart_item_count}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -111,7 +111,7 @@
                     <ul class="offcanvas__menu_ul">
 
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="#index_catalog_link">Каталог</a>
+                            <a class="offcanvas__menu_item" href="{% url 'core:index' %}#index_catalog_link">Каталог</a>
                             <ul class="offcanvas__sub_menu">
                                 {% for category in categories %}
                                     <li class="offcanvas__sub_menu_li"><a href="{% url 'catalog:category' category.id %}" class="offcanvas__sub_menu_item">{{ category.name }}</a></li>
@@ -140,7 +140,7 @@
         <div class="offcanvas__stikcy--toolbar" tabindex="-1">
             <ul class="d-flex justify-content-between">
                 <li class="offcanvas__stikcy--toolbar__list">
-                    <a class="offcanvas__stikcy--toolbar__btn" href="#index_catalog_link">
+                    <a class="offcanvas__stikcy--toolbar__btn" href="{% url 'core:index' %}#index_catalog_link">
                     <span class="offcanvas__stikcy--toolbar__icon">
                         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="18.51" height="17.443" viewBox="0 0 448 512"><path d="M416 32H32A32 32 0 0 0 0 64v384a32 32 0 0 0 32 32h384a32 32 0 0 0 32-32V64a32 32 0 0 0-32-32zm-16 48v152H248V80zm-200 0v152H48V80zM48 432V280h152v152zm200 0V280h152v152z"></path></svg>
                         </span>
@@ -156,14 +156,14 @@
                     </a>
                 </li>
                 <li class="offcanvas__stikcy--toolbar__list">
-                    <a class="offcanvas__stikcy--toolbar__btn minicart__open--btn" href="cart.html">
+                    <a class="offcanvas__stikcy--toolbar__btn minicart__open--btn" href="{% url 'catalog:cart' %}">
                         <span class="offcanvas__stikcy--toolbar__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18.51" height="15.443" viewBox="0 0 18.51 15.443">
                             <path  d="M79.963,138.379l-13.358,0-.56-1.927a.871.871,0,0,0-.6-.592l-1.961-.529a.91.91,0,0,0-.226-.03.864.864,0,0,0-.226,1.7l1.491.4,3.026,10.919a1.277,1.277,0,1,0,1.844,1.144.358.358,0,0,0,0-.049h6.163c0,.017,0,.034,0,.049a1.277,1.277,0,1,0,1.434-1.267c-1.531-.247-7.783-.55-7.783-.55l-.205-.8h7.8a.9.9,0,0,0,.863-.651l1.688-5.943h.62a.936.936,0,1,0,0-1.872Zm-9.934,6.474H68.568c-.04,0-.1.008-.125-.085-.034-.118-.082-.283-.082-.283l-1.146-4.037a.061.061,0,0,1,.011-.057.064.064,0,0,1,.053-.025h1.777a.064.064,0,0,1,.063.051l.969,4.34,0,.013a.058.058,0,0,1,0,.019A.063.063,0,0,1,70.03,144.853Zm3.731-4.41-.789,4.359a.066.066,0,0,1-.063.051h-1.1a.064.064,0,0,1-.063-.051l-.789-4.357a.064.064,0,0,1,.013-.055.07.07,0,0,1,.051-.025H73.7a.06.06,0,0,1,.051.025A.064.064,0,0,1,73.76,140.443Zm3.737,0L76.26,144.8a.068.068,0,0,1-.063.049H74.684a.063.063,0,0,1-.051-.025.064.064,0,0,1-.013-.055l.973-4.357a.066.066,0,0,1,.063-.051h1.777a.071.071,0,0,1,.053.025A.076.076,0,0,1,77.5,140.448Z" transform="translate(-62.393 -135.3)" fill="currentColor"/>
                             </svg>
                         </span>
                         <span class="offcanvas__stikcy--toolbar__label">Корзина</span>
-                        <span class="items__count">3</span>
+                        <span class="items__count cart-items-count">{{cart_item_count}}</span>
                     </a>
                 </li>
 

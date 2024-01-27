@@ -15,6 +15,9 @@
           transform: translateX(-50%);
         }
     </style>
+
+    <script src="{% static 'js/vendor/jquery-3.7.1.min.js' %}"></script>
+
     <main class="main__content_wrapper">
         
         <!-- Start breadcrumb section -->
@@ -144,8 +147,8 @@
 
                                 <div class="container mt-15">
                                   <span>{{ slider.start_value }}&nbsp;&nbsp;</span><span class="mb-15 slider-container">
-                                                <input type="range" class="form-range" id="rangeSlider_{{ slider.id }}" min="0" max="100" step="1" style="width:300px;">
-                                                <div class="slider-value" id="sliderValue_{{ slider.id }}">50</div>
+                                                <input type="range" class="form-range range-slider" slider_id="{{slider.id}}" id="rangeSlider_{{ slider.id }}" min="{{ slider.start_value }}" max="{{ slider.stop_value }}" step="1" style="width:300px;">
+                                                <div class="slider-value" id="sliderValue_{{ slider.id }}">{{ slider.start_value }}</div>
                                   </span><span>&nbsp;&nbsp;{{ slider.stop_value }}</span>
                                 </div>
 
@@ -156,18 +159,18 @@
 
                                   // Add an input event listener to update the displayed value
                                       rangeSlider_{{ slider.id }}.addEventListener('input', function() {
-                                      const value = rangeSlider_{{ slider.id }}.value;
 
-                                      sliderValue_{{ slider.id }}.textContent = value;
+                                        const value = rangeSlider_{{ slider.id }}.value;
+                                        sliderValue_{{ slider.id }}.textContent = value;  //записываем значение input в значение сверху
 
-                                  // Calculate the left position of the value based on the slider value
-                                      const sliderWidth = rangeSlider_{{ slider.id }}.offsetWidth;
-                                      const valueWidth = sliderValue_{{ slider.id }}.offsetWidth;
-                                      const leftPosition = (value / 100) * sliderWidth;
-                                      console.log("leftPosition", value, sliderWidth, valueWidth, leftPosition);
+                                      // Calculate the left position of the value based on the slider value
+                                          const sliderWidth = rangeSlider_{{ slider.id }}.offsetWidth;
+                                          const valueWidth = sliderValue_{{ slider.id }}.offsetWidth;
+                                          var value_temp = (value - {{ slider.start_value }});
+                                          const leftPosition = (value_temp / ({{ slider.stop_value }} - {{ slider.start_value }})) * sliderWidth;
 
-                                  // Set the left position
-                                      sliderValue_{{ slider.id }}.style.left = `calc(${leftPosition}px)`;
+                                      // Set the left position
+                                          sliderValue_{{ slider.id }}.style.left = `calc(${leftPosition}px)`;
                                   });
                                 </script>
 
@@ -175,14 +178,16 @@
 
 
                                     <div class="product__variant--list quantity d-flex align-items-center mb-20">
-                                        <div class="quantity__box">
-                                            <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                            <label>
-                                                <input type="number" class="quantity__number quickview__value--number" value="1" />
-                                            </label>
-                                            <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                        </div>
-                                        <button class="quickview__cart--btn primary__btn" type="submit">Добавить в корзину</button>
+<!--                                        <div class="quantity__box">-->
+<!--                                            <button type="button" class="quantity__value quickview__value&#45;&#45;quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>-->
+<!--                                            <label>-->
+<!--                                                <input type="number" class="quantity__number quickview__value&#45;&#45;number" value="1" />-->
+<!--                                            </label>-->
+<!--                                            <button type="button" class="quantity__value quickview__value&#45;&#45;quantity increase" aria-label="quantity value" value="Increase Value">+</button>-->
+<!--                                        </div>-->
+                                        <button class="quickview__cart--btn primary__btn" onclick="addToCart(this);" type="button">
+                                            {% if show_cart_add_button is False %}Добавлено{% else %}Добавить в корзину{% endif %}
+                                        </button>
                                     </div>
 
                                     <div class="product__variant--list mb-15">
@@ -303,5 +308,40 @@
         <!-- End product details tab section -->
 
     </main>
+
+<script>
+    $( document ).ready(function() {
+        $( ".range-slider" ).each( function() {
+            var slider_id = $(this).attr("slider_id");
+            var min_ = $(this).attr("min");
+            var max_ = $(this).attr("max");
+            var average_ = Number((max_ - min_) / 2) + Number(min_);
+            $( "#sliderValue_" + slider_id ).text(average_);
+        });
+    });
+    function addToCart(el) {
+        if (el.innerText != "Добавлено") {
+            var cookie_cart_item = "catalog_item&{{catalog_item.id}}&{{current_attribute.id}}";
+
+            var sliders = document.getElementsByClassName("range-slider");
+
+            Array.prototype.forEach.call(sliders, function(el) {
+                cookie_cart_item += "&sl_" + el.getAttribute("slider_id") + "_" + el.value;
+            });
+
+
+            cookie_cart_item += "=1; path=/";
+            document.cookie = cookie_cart_item;
+            var cart_span = document.getElementsByClassName("cart-items-count");
+            var cart_item_count = Number(cart_span[0].innerText) + 1;
+
+            Array.prototype.forEach.call(cart_span, function(el) {
+                el.innerText = cart_item_count;
+            });
+            document.cookie = "cart_item_count=" + cart_item_count + "; path=/";
+            el.innerText = "Добавлено"
+            };
+    };
+</script>
 
 {% endblock %}
