@@ -88,15 +88,3 @@ class Order(models.Model):
     description = models.TextField(verbose_name="Текст заказа")
     contact = models.TextField(verbose_name="Контакты")
     comment = models.TextField(verbose_name="Комментарий к заказу", null=True, blank=True)
-
-
-class OrderItem(models.Model):
-    class Meta:
-        verbose_name = "Товар в заказе"
-        verbose_name_plural = "Товары в заказе"
-        ordering = ("id",)
-
-    order = models.ForeignKey(Order, verbose_name="Заказ", on_delete=models.CASCADE, related_name="order_item")
-    catalog_item = models.ForeignKey(CategoryItem, verbose_name="Категория", on_delete=models.SET_NULL, null=True, blank=True)
-    main_attribute = models.ManyToManyField(MainAttribute, verbose_name="Основной атрибут", related_name='category_items', blank=True)
-    slider = models.ManyToManyField(SliderAttribute, verbose_name="Слайдер атрибут", related_name='category_items', blank=True)
