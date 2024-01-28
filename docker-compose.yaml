@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  api-woods:
+    build:
+      context: .
+      dockerfile: ./DockerFile
+    ports:
+    - "8000:8000"
