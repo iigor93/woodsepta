@@ -7,3 +7,19 @@ services:
       dockerfile: ./DockerFile
     ports:
     - "8000:8000"
+    depends_on:
+      db-woods:
+        condition: service_healthy
+
+
+  db-woods:
+    image: postgres:15
+    container_name: db-woods
+    env_file: ./.env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data

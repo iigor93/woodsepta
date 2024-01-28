@@ -114,3 +114,5 @@ GitHub.sublime-settings
 !.vscode/extensions.json
 .history
 /static/scss/
+/pg-data/
+/static_backup/
