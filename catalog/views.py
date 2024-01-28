@@ -14,7 +14,7 @@ from core.mixins import TopMenuMixin
 class CategoryView(TopMenuMixin, ListView):
     model = CategoryItem
     template_name = "catalog/category.html"
-    paginate_by = 16
+    paginate_by = 1
 
     def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
@@ -155,3 +155,20 @@ class ClearCartView(View):
             response.delete_cookie(i)
         response.delete_cookie("cart_item_count")
         return response
+
+
+class SearchView(TopMenuMixin, ListView):
+    model = CategoryItem
+    template_name = "catalog/category.html"
+    paginate_by = 1
+
+    def get_queryset(self, **kwargs):
+        q = self.request.GET.get("q")
+        qs = super().get_queryset()
+        items = qs.filter(description__icontains=q.lower().strip())
+        return items
+
+    def get_context_data(self, **kwargs):
+        self.context.update(super().get_context_data(**kwargs))
+        self.context.update({"search": self.request.GET.get("q")})
+        return self.context

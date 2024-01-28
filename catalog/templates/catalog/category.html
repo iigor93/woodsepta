@@ -13,7 +13,7 @@
                             <h1 class="breadcrumb__content--title text-white mb-10">Shop Grid</h1>
                             <ul class="breadcrumb__content--menu d-flex">
                                 <li class="breadcrumb__content--menu__items"><a class="text-white" href="{% url 'core:index' %}">Главная</a></li>
-                                <li class="breadcrumb__content--menu__items"><span class="text-white">{% if category %}{{category.name}}{% else %}Категория{% endif %}</span></li>
+                                <li class="breadcrumb__content--menu__items"><span class="text-white">{% if category %}{{category.name}}{% elif search %}ПОИСК {{ search }}{% else %}Категория{% endif %}</span></li>
                             </ul>
                         </div>
                     </div>
@@ -44,14 +44,14 @@
                                 <div class="product__view--mode d-flex align-items-center">
 
                                     <div class="product__view--mode__list product__short--by align-items-center d-none d-lg-flex">
-                                        <label class="product__view--label">Сортировка :</label>
-                                        <div class="select shop__header--select">
-                                            <select class="product__view--select">
-                                                <option selected value="1">Сначала дороже</option>
-                                                <option value="2">Сначала дешевле</option>
-                                                <option value="3">Популярное</option>
-                                            </select>
-                                        </div>
+<!--                                        <label class="product__view&#45;&#45;label">Сортировка :</label>-->
+<!--                                        <div class="select shop__header&#45;&#45;select">-->
+<!--                                            <select class="product__view&#45;&#45;select">-->
+<!--                                                <option selected value="1">Сначала дороже</option>-->
+<!--                                                <option value="2">Сначала дешевле</option>-->
+<!--                                                <option value="3">Популярное</option>-->
+<!--                                            </select>-->
+<!--                                        </div>-->
                                     </div>
 
                                 </div>
@@ -82,12 +82,12 @@
                                                         <div class="product__items--price">
                                                             <span class="current__price">от {{ object.price|floatformat:2 }} ₽</span>
                                                         </div>
-                                                        <a class="product__items--action__cart--btn primary__btn" href="cart.html">
-                                                            <svg class="product__items--action__cart--btn__icon" xmlns="http://www.w3.org/2000/svg" width="13.897" height="14.565" viewBox="0 0 18.897 21.565">
-                                                                <path  d="M16.84,8.082V6.091a4.725,4.725,0,1,0-9.449,0v4.725a.675.675,0,0,0,1.35,0V9.432h5.4V8.082h-5.4V6.091a3.375,3.375,0,0,1,6.75,0v4.691a.675.675,0,1,0,1.35,0V9.433h3.374V21.581H4.017V9.432H6.041V8.082H2.667V21.641a1.289,1.289,0,0,0,1.289,1.29h16.32a1.289,1.289,0,0,0,1.289-1.29V8.082Z" transform="translate(-2.667 -1.366)" fill="currentColor"></path>
-                                                            </svg>
-                                                            <span class="add__to--cart__text"> Добавить в корзину</span>
-                                                        </a>
+<!--                                                        <a class="product__items&#45;&#45;action__cart&#45;&#45;btn primary__btn" href="cart.html">-->
+<!--                                                            <svg class="product__items&#45;&#45;action__cart&#45;&#45;btn__icon" xmlns="http://www.w3.org/2000/svg" width="13.897" height="14.565" viewBox="0 0 18.897 21.565">-->
+<!--                                                                <path  d="M16.84,8.082V6.091a4.725,4.725,0,1,0-9.449,0v4.725a.675.675,0,0,0,1.35,0V9.432h5.4V8.082h-5.4V6.091a3.375,3.375,0,0,1,6.75,0v4.691a.675.675,0,1,0,1.35,0V9.433h3.374V21.581H4.017V9.432H6.041V8.082H2.667V21.641a1.289,1.289,0,0,0,1.289,1.29h16.32a1.289,1.289,0,0,0,1.289-1.29V8.082Z" transform="translate(-2.667 -1.366)" fill="currentColor"></path>-->
+<!--                                                            </svg>-->
+<!--                                                            <span class="add__to&#45;&#45;cart__text"> Добавить в корзину</span>-->
+<!--                                                        </a>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -103,21 +103,29 @@
                             <div class="pagination__area bg__gray--color">
                                 <nav class="pagination justify-content-center">
                                     <ul class="pagination__wrapper d-flex align-items-center justify-content-center">
-                                        <li class="pagination__list"><a href="shop.html" class="pagination__item--arrow  link ">
-                                            <svg xmlns="http://www.w3.org/2000/svg"  width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg></a>
-                                        <li>
-                                        <li class="pagination__list"><span class="pagination__item pagination__item--current">1</span></li>
-                                        <li class="pagination__list"><a href="shop.html" class="pagination__item link">2</a></li>
-                                        <li class="pagination__list"><a href="shop.html" class="pagination__item link">3</a></li>
-                                        <li class="pagination__list"><a href="shop.html" class="pagination__item link">4</a></li>
-                                        <li class="pagination__list"><a href="shop.html" class="pagination__item--arrow  link ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M268 112l144 144-144 144M392 256H100"/></svg></a>
-                                        <li>
+                                        {% if page_obj.has_previous %}
+                                            <li class="pagination__list"><a href="?page=1" class="pagination__item--arrow  link ">
+                                                <svg xmlns="http://www.w3.org/2000/svg"  width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg></a>
+                                            <li>
+
+                                            <li class="pagination__list"><a href="?page={{ page_obj.previous_page_number }}"><span class="pagination__item link">{{ page_obj.previous_page_number }}</span></a></li>
+                                        {% endif %}
+                                        <li class="pagination__list"><a href="#" class="pagination__item pagination__item--current">{{ page_obj.number }}</a></li>
+<!--                                        <li class="pagination__list"><a href="shop.html" class="pagination__item link">3</a></li>-->
+<!--                                        <li class="pagination__list"><a href="shop.html" class="pagination__item link">4</a></li>-->
+                                        {% if page_obj.has_next %}
+
+                                        <li class="pagination__list"><a href="?page={{ page_obj.next_page_number }}"><span class="pagination__item link">{{ page_obj.next_page_number }}</span></a></li>
+
+                                        <li class="pagination__list"><a href="?page={{ page_obj.paginator.num_pages }}" class="pagination__item--arrow  link ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M268 112l144 144-144 144M392 256H100"/></svg></a>
+                                            <li>
+                                        {% endif %}
+
                                     </ul>
                                 </nav>
                             </div>
 
-                   
                             {% endif %}
                     </div>
                 </div>
