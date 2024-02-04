@@ -16,7 +16,7 @@ SECRET_KEY = os.environ["django_secret_key"]
 DEBUG = True if os.environ.get("DEBUG", None) else False
 
 ALLOWED_HOSTS = [os.environ["ALLOWED_HOSTS"]]
-
+CSRF_TRUSTED_ORIGINS = [os.environ["ALLOWED_HOSTS"]]
 # Application definition
 
 INSTALLED_APPS = [
