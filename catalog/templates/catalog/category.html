@@ -10,7 +10,7 @@
                 <div class="row row-cols-1">
                     <div class="col">
                         <div class="breadcrumb__content">
-                            <h1 class="breadcrumb__content--title text-white mb-10">Shop Grid</h1>
+                            <h1 class="breadcrumb__content--title text-white mb-10">{% if category %}{{category.name}}{% elif search %}ПОИСК {{ search }}{% else %}Категория{% endif %}</h1>
                             <ul class="breadcrumb__content--menu d-flex">
                                 <li class="breadcrumb__content--menu__items"><a class="text-white" href="{% url 'core:index' %}">Главная</a></li>
                                 <li class="breadcrumb__content--menu__items"><span class="text-white">{% if category %}{{category.name}}{% elif search %}ПОИСК {{ search }}{% else %}Категория{% endif %}</span></li>
@@ -33,7 +33,7 @@
                             <div class="product__view--mode d-flex align-items-center">
 
                                 <div class="product__view--mode__list product__short--by align-items-center d-none d-lg-flex">
-                                    <label class="product__view--label">В данной категории пока нет товаров </label>
+                                    <label class="product__view--label">{% if category %}В данной категории пока нет товаров {% elif search %}Ничего не нашлось, попробуйте еще раз{% else %}..{% endif %}</label>
                                 </div>
                             </div>
                         </div>

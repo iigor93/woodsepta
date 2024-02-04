@@ -84,8 +84,7 @@
                                 <div class="banner__items">
                                     <a class="banner__items--thumbnail position__relative" href="{% url 'catalog:category' category.id %}"><img class="banner__items--thumbnail__img" src="{{ category.image.url }}" alt="banner-img" style="width:750px !important; height:335px !important;">
                                         <div class="banner__items--content {% if category.number_on_main_page == 1 %}one {% elif category.number_on_main_page == 2 %}two {% endif %}">
-                                            <h2 class="banner__items--content__title">{{ category.name }} <br>
-                                                {{ category.title }}</h2>
+                                            <h2 class="banner__items--content__title">{{ category.name }}</h2>
                                         </div>
                                     </a>
                                 </div>
@@ -98,8 +97,8 @@
                                 <div class="banner__items">
                                     <a class="banner__items--thumbnail position__relative" href="{% url 'catalog:category' category.id %}"><img class="banner__items--thumbnail__img" src="{{ category.image.url }}" alt="banner-img" style="width:750px !important; height:770px !important;">
                                         <div class="banner__items--content three">
-                                            <h2 class="banner__items--content__title">{{ category.name }} <br>
-                                                {{ category.title }}</h2>
+                                            <h2 class="banner__items--content__title">{{ category.name }}
+                                               </h2>
                                         </div>
                                     </a>
                                 </div>
@@ -115,7 +114,7 @@
                                     <a class="banner__items--thumbnail position__relative" href="{% url 'catalog:category' category.id %}"><img class="banner__items--thumbnail__img" src="{{ category.image.url }}" alt="banner-img" style="width:750px !important; height:370px !important;">
                                         <div class="banner__items--content {% if category.number_on_main_page == 4 %}four {% elif category.number_on_main_page == 5 %}five {% endif %}">
                                             <h2 class="banner__items--content__title {% if category.number_on_main_page == 4 %}four {% elif category.number_on_main_page == 5 %}five {% endif %}">{{ category.name }} <br>
-                                                {{ category.title }}</h2>
+                                               </h2>
                                         </div>
                                     </a>
                                 </div>
