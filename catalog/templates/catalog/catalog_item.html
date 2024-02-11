@@ -84,7 +84,7 @@
                                 <h2 class="product__details--info__title mb-15">{{ catalog_item.name }}</h2>
                                 <div class="product__details--info__price mb-10">
                                     <span class="current__price">{{ current_price|floatformat:2 }} ₽</span>
-                                    <span class="old__price">1320.00 ₽</span>
+<!--                                    <span class="old__price">1320.00 ₽</span>-->
                                 </div>
                                 <div class="product__details--info__rating d-flex align-items-center mb-15">
                                     <ul class="rating product__list--rating d-flex">
@@ -332,7 +332,7 @@
                                 <br><br>
                                 <div class="product__variant--list mb-15">
                                     <h5 class="guarantee__safe--checkout__title">Оплата картой или наличными</h5>
-                                    <p class="product__details--info__desc mb-20">{{ catalog_item.description }}</p>
+                                    <p class="product__details--info__desc mb-20">{{ catalog_item.description | safe }}</p>
                                 </div>
                             </form>
                         </div>
