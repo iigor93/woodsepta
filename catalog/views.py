@@ -1,6 +1,4 @@
-import datetime
-
-from django.db.models import F
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -9,12 +7,13 @@ from django.views.generic import ListView
 
 from catalog.models import Category, CategoryItem, MainAttribute, SliderAttribute, Order
 from core.mixins import TopMenuMixin
+from woods import settings
 
 
 class CategoryView(TopMenuMixin, ListView):
     model = CategoryItem
     template_name = "catalog/category.html"
-    paginate_by = 1
+    paginate_by = 8
 
     def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
@@ -124,6 +123,15 @@ class OrderView(TopMenuMixin, View):
         order = Order.objects.create(contact=request.POST.get("phone_email"),
                                      comment=request.POST.get("comment"),
                                      description="; ".join(cart_items))
+        try:
+            send_mail(
+                "Новый заказ на сайте",
+                "Новый заказ на сайте.",
+                f"{settings.EMAIL_FROM}",
+                [f"{settings.EMAIL_TO}"],
+            )
+        except BaseException as e:
+            print(f"err {e}")
 
         self.context.update(
             {"order_number": order.id,
@@ -160,7 +168,7 @@ class ClearCartView(View):
 class SearchView(TopMenuMixin, ListView):
     model = CategoryItem
     template_name = "catalog/category.html"
-    paginate_by = 1
+    paginate_by = 8
 
     def get_queryset(self, **kwargs):
         q = self.request.GET.get("q")
