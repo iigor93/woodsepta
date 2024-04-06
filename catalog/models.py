@@ -40,6 +40,7 @@ class MainAttribute(models.Model):
     thumbnail = models.ImageField(verbose_name="Логотип атрибута (мини)", upload_to='images/attribute/')
     item_photos = models.ManyToManyField(Photo, verbose_name="Фото товара с атрибутом")
     vendor_code = models.CharField(max_length=50, verbose_name='Артикул товара с атрибутом', null=False)
+    delivery_days = models.IntegerField(verbose_name="Производство дней", null=True, blank=True)
 
     def __str__(self):
         return self.name

@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -50,12 +52,17 @@ class CatalogItemView(TopMenuMixin, View):
                 if attribute[0] == str(catalog_item_id) and attribute[1] == str(current_attribute.id):
                     show_cart_add_button = False
 
+        delivery_days = None
+        if current_attribute.delivery_days:
+            delivery_days = datetime.datetime.now().date() + datetime.timedelta(days=current_attribute.delivery_days)
+
         self.context.update({
             "catalog_item": catalog_item,
             "sliders": sliders,
             "current_attribute": current_attribute,
             "current_price": catalog_item.price + current_attribute.additional_price,
             "show_cart_add_button": show_cart_add_button,
+            "delivery_days": delivery_days,
         })
         return render(request, template_name=self.template_name, context=self.context)
 

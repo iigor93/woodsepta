@@ -194,6 +194,7 @@
                                         <div class="product__details--info__meta">
                                             <p class="product__details--info__meta--list"><strong>Артикул:</strong>  <span>{{ catalog_item.vendor_code }}</span> </p>
                                             <p class="product__details--info__meta--list"><strong>Категория:</strong>  <span>{{ catalog_item.category }}</span> </p>
+                                            {% if delivery_days %}<p class="product__details--info__meta--list"><strong>Дата доставки:</strong>  <span>{{ delivery_days }}</span> </p>{% endif %}
                                         </div>
                                     </div>
 
